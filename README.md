@@ -1,2 +1,5 @@
-# projeto-algoritmos2
+<h1>Projeto da disciplina Algoritmos 2</h1>
+
+<h2>Murilo Silva e Otávio Felício</h2>
+
 Projeto realizado pela dupla Murilo Silva e Otávio Felício para a disciplina de Algoritmos 2 no curso de Engenharia de Software. O objetivo foi desenvolver um sistema em C para gerenciamento de alunos, disciplinas, matrículas e compromissos, com validação de dados, limites de compromissos por aluno e relatórios ordenados usando qsort, além de utilizar vetores dinâmicos e interação via menu de opções.

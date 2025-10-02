@@ -79,3 +79,22 @@ int comparaCompromissoRaDataHora(const void *a, const void *b);
 // Funções opcionais
 void leHorario(stHora *);
 void leData(stData *);
+
+//função menu
+int menu()
+{
+    int opcao;
+
+    printf("Menu:\n");
+    printf("1. Cadastrar Aluno\n");
+    printf("2. Cadastrar Disciplina\n");
+    printf("3. Cadastrar Matrícula\n");
+    printf("4. Cadastrar Compromisso\n");
+    printf("5. Imprimir Relatório de Compromissos\n");
+    printf("6. Imprimir Relatório de um aluno\n");
+    printf("7. Imprimir dados de todos os alunos\n");
+    printf("8. Sair\n");
+    scanf("%d", &opcao);
+
+    return opcao;
+}

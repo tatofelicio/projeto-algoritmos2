@@ -81,6 +81,17 @@ void leHorario(stHora *);
 void leData(stData *);
 
 //função menu
+int menu();
+
+int main(){
+
+
+
+
+return 0;
+}
+
+//função menu
 int menu()
 {
     int opcao;
@@ -97,4 +108,76 @@ int menu()
     scanf("%d", &opcao);
 
     return opcao;
+}
+
+// Funções de alocação dinâmica
+stAluno* criaVetorAlunos(int tamanhoInicial){
+    stAluno *vetor = malloc(tamanhoInicial * sizeof(stAluno));
+    if(vetor == NULL){
+        printf("Erro de alocação de memória!\n");
+        exit(1);
+    }
+    return vetor;
+}
+stDisciplina* criaVetorDisciplinas(int tamanhoInicial){
+    stDisciplina *vetor = malloc(tamanhoInicial * sizeof(stDisciplina));
+    if(vetor == NULL){
+        printf("Erro de alocação de memória!\n");
+        exit(1);
+    }
+    return vetor;
+}
+stMatricula* criaVetorMatriculas(int tamanhoInicial){
+    stMatricula *vetor = malloc(tamanhoInicial * sizeof(stMatricula));
+    if(vetor == NULL){
+        printf("Erro de alocação de memória!\n");
+        exit(1);
+    }
+    return vetor;
+}
+stCompromisso* criaVetorCompromissos(int tamanhoInicial){
+    stCompromisso *vetor = malloc(tamanhoInicial * sizeof(stCompromisso));
+    if(vetor == NULL){
+        printf("Erro de alocação de memória!\n");
+        exit(1);
+    }
+    return vetor;
+}
+
+//funções de realocação dinâmica
+stAluno* realocaVetorAlunos(stAluno *vetor, int novoTamanho){
+    stAluno *novoVetor = realloc(vetor, novoTamanho * sizeof(stAluno));
+    if(novoVetor == NULL){
+        printf("Erro de realocação de memória!\n");
+        free(vetor);
+        exit(1);
+    }
+    return novoVetor;
+}
+stDisciplina* realocaVetorDisciplinas(stDisciplina *vetor, int novoTamanho){
+    stDisciplina *novoVetor = realloc(vetor, novoTamanho * sizeof(stDisciplina));
+    if(novoVetor == NULL){
+        printf("Erro de realocação de memória!\n");
+        free(vetor);
+        exit(1);
+    }
+    return novoVetor;
+}
+stMatricula* realocaVetorMatriculas(stMatricula *vetor, int novoTamanho){
+    stMatricula *novoVetor = realloc(vetor, novoTamanho * sizeof(stMatricula));
+    if(novoVetor == NULL){
+        printf("Erro de realocação de memória!\n");
+        free(vetor);
+        exit(1);
+    }
+    return novoVetor;
+}
+stCompromisso* realocaVetorCompromissos(stCompromisso *vetor, int novoTamanho){
+    stCompromisso *novoVetor = realloc(vetor, novoTamanho * sizeof(stCompromisso));
+    if(novoVetor == NULL){
+        printf("Erro de realocação de memória!\n");
+        free(vetor);
+        exit(1);
+    }
+    return novoVetor;
 }

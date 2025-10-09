@@ -80,18 +80,15 @@ int comparaCompromissoRaDataHora(const void *a, const void *b);
 void leHorario(stHora *);
 void leData(stData *);
 
-//função menu
+// Função menu
 int menu();
 
 int main(){
 
-
-
-
 return 0;
 }
 
-//função menu
+// Função menu
 int menu()
 {
     int opcao;
@@ -144,7 +141,7 @@ stCompromisso* criaVetorCompromissos(int tamanhoInicial){
     return vetor;
 }
 
-//funções de realocação dinâmica
+// Funções de realocação dinâmica
 stAluno* realocaVetorAlunos(stAluno *vetor, int novoTamanho){
     stAluno *novoVetor = realloc(vetor, novoTamanho * sizeof(stAluno));
     if(novoVetor == NULL){
@@ -180,4 +177,23 @@ stCompromisso* realocaVetorCompromissos(stCompromisso *vetor, int novoTamanho){
         exit(1);
     }
     return novoVetor;
+}
+
+// Funções de cadastro
+void cadastraAluno(stAluno alunos[], int qtdAlunos){
+    printf("\nCadastro de Aluno\n");
+
+    printf("Digite o RA: ");
+    scanf("%d", &alunos[qtdAlunos].ra);
+    getchar(); 
+
+    printf("Digite o nome do aluno: ");
+    fgets(alunos[qtdAlunos].nome, sizeof(alunos[qtdAlunos].nome), stdin);
+    alunos[qtdAlunos].nome[strcspn(alunos[qtdAlunos].nome, "\n")] = '\0';
+
+    printf("Digite o email do aluno: ");
+    fgets(alunos[qtdAlunos].email, sizeof(alunos[qtdAlunos].email), stdin);
+    alunos[qtdAlunos].email[strcspn(alunos[qtdAlunos].email, "\n")] = '\0';
+
+    printf("\nAluno cadastrado com sucesso!\n");
 }

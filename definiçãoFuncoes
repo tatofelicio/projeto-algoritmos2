@@ -109,3 +109,17 @@ void cadastraAluno(stAluno alunos[], int qtdAlunos){
 
     printf("\nAluno cadastrado com sucesso!\n");
 }
+
+void cadastraDisciplina(stDisciplina disciplinas[], int qtdDisciplinas){
+    printf("\nCadastro de Disciplinas\n");
+
+    printf("Digite o código da disciplina: ");
+    scanf("%d", &disciplinas[qtdDisciplinas].codigoDis);
+    getchar();
+
+    printf("Digite o nome da disciplina: ");
+    fgets(disciplinas[qtdDisciplinas].disciplina, sizeof(disciplinas[qtdDisciplinas].disciplina), stdin);
+    disciplinas[qtdDisciplinas].disciplina[strcspn(disciplinas[qtdDisciplinas].disciplina, "\n")] = '\0';
+
+    printf("\nDisciplina cadastrada com sucesso!\n");
+}

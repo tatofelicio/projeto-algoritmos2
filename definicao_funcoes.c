@@ -57,6 +57,21 @@ int verificaEmail(char email[]) {
     return 1; // Email válido
 }
 
+/*
+// Funções de busca
+int encontraAluno(stAluno *, int, int);
+int encontraDisciplina(stDisciplina *, int, int);
+int procuraData(stCompromisso *, int, stData *, int);
+int procuraHorario(stCompromisso *, int, stHora *, stData *, int);
+*/
+
+/*
+// Funções de impressão
+void imprimeVetorDeAlunos(stAluno [], int);
+void imprimeRelatorioAlunos(stAluno *, int);
+void imprimeRelatorioCompromissos(stCompromisso *, int);
+*/
+
 // Função menu
 int menu()
 {
@@ -147,6 +162,20 @@ stCompromisso* realocaVetorCompromissos(stCompromisso *vetor, int novoTamanho){
     }
     return novoVetor;
 }
+
+/*
+// Funções auxiliares para qsort
+int comparaAlunoRa(const void *a, const void *b);
+int comparaCompromissoDataHoraRa(const void *a, const void *b);
+int comparaCompromissoHoraRa(const void *a, const void *b);
+int comparaCompromissoRaDataHora(const void *a, const void *b);
+*/
+
+/*
+// Funções opcionais
+void leHorario(stHora *);
+void leData(stData *);
+*/
 
 // Funções de cadastro
 void cadastraAluno(stAluno alunos[], int qtdAlunos){

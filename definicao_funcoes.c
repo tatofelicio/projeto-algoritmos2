@@ -1,4 +1,61 @@
-#include "structs_prototipos.h";
+#include "structs_prototipos.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
+// Funções de validação
+int verificaData(stData * data) {
+
+    if(data->ano < 1900 || data->ano > 2100){
+        printf("Ano inválido. Deve estar entre 1900 e 2100.\n");
+        return 0;
+    }
+    if(data->mes < 1 || data->mes > 12) {
+        printf("Mês inválido. Deve estar entre 1 e 12.\n");
+        return 0;
+    }
+
+    int diasNoMes;
+    switch(data->mes){
+        case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+            diasNoMes = 31; break;
+        case 4: case 6: case 9: case 11:
+            diasNoMes = 30; break;
+        case 2:
+            if((data->ano % 4 == 0 && data->ano % 100 != 0) || (data->ano % 400 == 0))
+                diasNoMes = 29; // Ano bissexto
+            else
+                diasNoMes = 28;
+            break;
+        default:
+            return 0; // Mês inválido
+    }
+
+    if(data->dia < 1 || data->dia > diasNoMes) return 0;
+
+    return 1; // Data válida
+}
+int verificaHorario(stHora * hora) {
+    if(hora->hora < 0 || hora->hora > 23) {
+        printf("Hora inválida. Deve estar entre 0 e 23.\n");
+        return 0;
+    }
+    if(hora->min < 0 || hora->min > 59) {
+        printf("Minuto inválido. Deve estar entre 0 e 59.\n");
+        return 0;
+    }
+    return 1; // Horário válido
+}
+
+int verificaEmail(char email[]) {
+    // Verifica se o email contém um '@' e um '.'
+    if(strchr(email, '@') == NULL || strchr(email, '.') == NULL) {
+        printf("Email inválido.\n");
+        return 0;
+    }
+    return 1; // Email válido
+}
 
 // Função menu
 int menu()

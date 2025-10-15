@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 typedef struct{
     int dia;
@@ -65,6 +66,7 @@ stDisciplina* criaVetorDisciplinas(int tamanhoInicial);
 stMatricula* criaVetorMatriculas(int tamanhoInicial);
 stCompromisso* criaVetorCompromissos(int tamanhoInicial);
 
+// Funções de realocação dinâmica
 stAluno* realocaVetorAlunos(stAluno *vetor, int novoTamanho);
 stDisciplina* realocaVetorDisciplinas(stDisciplina *vetor, int novoTamanho);
 stMatricula* realocaVetorMatriculas(stMatricula *vetor, int novoTamanho);
@@ -76,7 +78,7 @@ int comparaCompromissoDataHoraRa(const void *a, const void *b);
 int comparaCompromissoHoraRa(const void *a, const void *b);
 int comparaCompromissoRaDataHora(const void *a, const void *b);
 
-// Funções opcionais
+// Funções de leitura
 void leHorario(stHora *);
 void leData(stData *);
 

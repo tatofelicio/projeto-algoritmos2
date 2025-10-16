@@ -13,9 +13,11 @@ void cadastraAluno(stAluno alunos[], int qtdAlunos){
     fgets(alunos[qtdAlunos].nome, sizeof(alunos[qtdAlunos].nome), stdin);
     alunos[qtdAlunos].nome[strcspn(alunos[qtdAlunos].nome, "\n")] = '\0';
 
+    do{
     printf("Digite o email do aluno: ");
     fgets(alunos[qtdAlunos].email, sizeof(alunos[qtdAlunos].email), stdin);
     alunos[qtdAlunos].email[strcspn(alunos[qtdAlunos].email, "\n")] = '\0';
+    } while(verificaEmail(alunos[qtdAlunos].email) == 0);
 
     printf("\nAluno cadastrado com sucesso!\n");
 }
@@ -38,140 +40,100 @@ void cadastraDisciplina(stDisciplina disciplinas[], int qtdDisciplinas){
 
 // Cadastra matrícula
 void cadastraMatricula (stMatricula matriculas[], int qtdMatriculas, stAluno alunos[], int qtdAlunos, stDisciplina disciplinas[], int qtdDisciplinas){
-    int ra, codDisciplina;
-    int indAluno, indDisciplina;
-    char opcao;
+    int raDigitado;
+    int codigoDigitado;
+    int indiceAluno;
+    int indiceDisciplina;
 
     printf("\nCadastro de Matrícula\n");
 
-    while (1) {
+    do {
         printf("Digite o RA do aluno: ");
-        scanf("%d", &ra);
+        scanf("%d", &raDigitado);
 
-        indAluno = encontraAluno(alunos, qtdAlunos, ra);
-        
-    if (indAluno == -1) {
-        printf("Aluno não encontrado!\n\n");
-        printf("Deseja tentar novamente? (S/N): ");
-        scanf(" %c", &opcao);
-            if (opcao == 'N' || opcao == 'n')
-                return; 
-        } else {
-            printf("Aluno encontrado: %s\n", alunos[indAluno].nome);
-            break;
+        indiceAluno = encontraAluno(alunos, qtdAlunos, raDigitado);
+
+        if (indiceAluno == -1) {
+            printf("Erro: Aluno com RA %d não encontrado. Por favor, tente novamente.\n", raDigitado);
         }
-    }
+    } while (indiceAluno == -1); 
 
-    while (1) {
+    printf("Aluno: %s\n", alunos[indiceAluno].nome);
+
+    do {
         printf("Digite o código da disciplina: ");
-        scanf("%d", &codDisciplina);
+        scanf("%d", &codigoDigitado);
 
-        indDisciplina = encontraDisciplina(disciplinas, qtdDisciplinas, codDisciplina);
+        indiceDisciplina = encontraDisciplina(disciplinas, qtdDisciplinas, codigoDigitado);
 
-        if (indDisciplina == -1) {
-            printf("Disciplina não encontrada!\n\n");
-            printf("Deseja tentar novamente? (S/N): ");
-            scanf(" %c", &opcao);
-            if (opcao == 'N' || opcao == 'n')
-                return;
-        } else {
-            printf("Disciplina encontrada: %s\n", disciplinas[indDisciplina].disciplina);
-            break;
+        if (indiceDisciplina == -1) {
+            printf("Erro: Disciplina com código %d não encontrada. Por favor, tente novamente.\n", codigoDigitado);
         }
-    }
+    } while (indiceDisciplina == -1); 
 
-    matriculas[qtdMatriculas].ra = ra;
-    matriculas[qtdMatriculas].codigoDis = codDisciplina;
+    printf("Disciplina: %s\n", disciplinas[indiceDisciplina].disciplina);
 
-    printf("Digite a data da matrícula:\n");
-    leData(&matriculas[qtdMatriculas].dataMatricula);
+    matriculas[qtdMatriculas].ra = raDigitado;
+    matriculas[qtdMatriculas].codigoDis = codigoDigitado;
 
-    for (int i = 0; i < 4; i++) {
-        matriculas[qtdMatriculas].notas[i] = 0.0;
-    }
-
-    printf("\nMatrícula cadastrada com sucesso!\n");
-
+    printf("\nMatrícula realizada com sucesso!\n"); 
 }
 
 // Cadastra compromisso
 void cadastraCompromisso(stCompromisso *compromissos, int *qtdCompromissos, stAluno *alunos, int qtdAlunos) {
-    int ra;
-    int indiceAluno = -1;
-    char opcao;
+    int raDigitado;
+    int indiceAluno;
+    stData novaData;
+    stHora novaHora;
+    int compromissosNaData = 0;
 
-    printf("\nCadastro de Compromisso\n");
+    printf("\n--- Cadastro de Compromisso ---\n");
 
-    if (qtdAlunos == 0) {
-        printf("Nenhum aluno cadastrado! Cadastre um aluno primeiro.\n");
-        return;
-    }
-
-    while (1) {
-        printf("Digite o RA do aluno: ");
-        scanf("%d", &ra);
-        getchar(); 
-
-
-        for (int i = 0; i < qtdAlunos; i++) {
-            if (alunos[i].ra == ra) {
-                indiceAluno = i;
-                break;
-            }
-        }
-
+    do {
+        printf("Digite o RA do aluno para o compromisso: ");
+        scanf("%d", &raDigitado);
+        indiceAluno = encontraAluno(alunos, qtdAlunos, raDigitado);
         if (indiceAluno == -1) {
-            printf("Aluno não encontrado!\n");
-            printf("Deseja tentar novamente? (S/N): ");
-            scanf(" %c", &opcao);
-            if (opcao == 'N' || opcao == 'n')
-                return;
-        } else {
-            printf("Aluno encontrado: %s\n", alunos[indiceAluno].nome);
-            break;
+            printf("Erro: Aluno com RA %d não encontrado. Tente novamente.\n", raDigitado);
         }
-    }
+    } while (indiceAluno == -1);
 
-    stData data;
-    stHora hora;
-    printf("\nDigite a data do compromisso:\n");
-    leData(&data);
+    printf("Aluno selecionado: %s\n", alunos[indiceAluno].nome);
 
-    printf("Digite a hora (HH MM): ");
-    scanf("%d %d", &hora.hora, &hora.min);
+    printf("Digite a data do compromisso (dd mm aaaa): ");
+    scanf("%d %d %d", &novaData.dia, &novaData.mes, &novaData.ano);
+
+    printf("Digite o horário do compromisso (hh mm): ");
+    scanf("%d %d", &novaHora.hora, &novaHora.min);
     getchar();
 
-    int compromissosMesmoDia = 0;
-    for (int i = 0; i < *qtdCompromissos; i++) {
-        if (compromissos[i].aluno.ra == ra &&
-            compromissos[i].data.dia == data.dia &&
-            compromissos[i].data.mes == data.mes &&
-            compromissos[i].data.ano == data.ano) {
-            compromissosMesmoDia++;
-
-            if (compromissos[i].horario.hora == hora.hora &&
-                compromissos[i].horario.min == hora.min) {
-                printf("\nJá existe um compromisso nesse mesmo horário!\n");
-                return;
-            }
-        }
-    }
-
-    if (compromissosMesmoDia >= 2) {
-        printf("\nEste aluno já possui dois compromissos nesta data!\n");
+    if (procuraHorario(compromissos, *qtdCompromissos, &novaHora, &novaData, raDigitado) != -1) {
+        printf("\nErro: Já existe um compromisso para este aluno neste mesmo dia e horário.\n");
         return;
     }
 
-    stCompromisso novo;
-    novo.aluno = alunos[indiceAluno];
-    novo.data = data;
-    novo.horario = hora;
+    for (int i = 0; i < *qtdCompromissos; i++) {
+        if (compromissos[i].aluno.ra == raDigitado &&
+            compromissos[i].data.dia == novaData.dia &&
+            compromissos[i].data.mes == novaData.mes &&
+            compromissos[i].data.ano == novaData.ano) {
+            compromissosNaData++;
+        }
+    }
+
+    if (compromissosNaData >= 2) {
+        printf("\nErro: O aluno já possui dois compromissos agendados para esta data.\n");
+        return;
+    }
+
+    compromissos[*qtdCompromissos].aluno = alunos[indiceAluno];
+    compromissos[*qtdCompromissos].data = novaData;
+    compromissos[*qtdCompromissos].horario = novaHora;
 
     printf("Digite a descrição do compromisso: ");
-    fgets(novo.descricao, sizeof(novo.descricao), stdin);
-    novo.descricao[strcspn(novo.descricao, "\n")] = '\0';
+    fgets(compromissos[*qtdCompromissos].descricao, sizeof(compromissos[*qtdCompromissos].descricao), stdin);
+    compromissos[*qtdCompromissos].descricao[strcspn(compromissos[*qtdCompromissos].descricao, "\n")] = '\0';
 
-    compromissos[*qtdCompromissos] = novo;
     (*qtdCompromissos)++;
 
     printf("\nCompromisso cadastrado com sucesso!\n");
@@ -224,6 +186,7 @@ int verificaHorario(stHora * hora) {
     return 1;
 }
 
+// Valida email
 int verificaEmail(char email[]) {
     if(strchr(email, '@') == NULL || strchr(email, '.') == NULL) {
         printf("Email inválido.\n");

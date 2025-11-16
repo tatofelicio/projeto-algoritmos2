@@ -525,8 +525,3 @@ int menu(stAluno *alunos, int *qtdAlunos,
     }
 } while (opcao != 8);
 }
-
-// int comparaAlunoRa(const void *a, const void *b);
-// int comparaCompromissoDataHoraRa(const void *a, const void *b);
-// int comparaCompromissoHoraRa(const void *a, const void *b);
-// int comparaCompromissoRaDataHora(const void *a, const void *b);

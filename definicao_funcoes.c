@@ -2,44 +2,46 @@
 
 // Funções de cadastro
 // Cadastra aluno
-void cadastraAluno(stAluno alunos[], int qtdAlunos){
+void cadastraAluno(stAluno alunos[], int *qtdAlunos){
     printf("\nCadastro de Aluno\n");
 
     printf("Digite o RA: ");
-    scanf("%d", &alunos[qtdAlunos].ra);
+    scanf("%d", &alunos[*qtdAlunos].ra);
     getchar(); 
 
     printf("Digite o nome do aluno: ");
-    fgets(alunos[qtdAlunos].nome, sizeof(alunos[qtdAlunos].nome), stdin);
-    alunos[qtdAlunos].nome[strcspn(alunos[qtdAlunos].nome, "\n")] = '\0';
+    fgets(alunos[*qtdAlunos].nome, sizeof(alunos[*qtdAlunos].nome), stdin);
+    alunos[*qtdAlunos].nome[strcspn(alunos[*qtdAlunos].nome, "\n")] = '\0';
 
     do{
     printf("Digite o email do aluno: ");
-    fgets(alunos[qtdAlunos].email, sizeof(alunos[qtdAlunos].email), stdin);
-    alunos[qtdAlunos].email[strcspn(alunos[qtdAlunos].email, "\n")] = '\0';
-    } while(verificaEmail(alunos[qtdAlunos].email) == 0);
+    fgets(alunos[*qtdAlunos].email, sizeof(alunos[*qtdAlunos].email), stdin);
+    alunos[*qtdAlunos].email[strcspn(alunos[*qtdAlunos].email, "\n")] = '\0';
+    } while(verificaEmail(alunos[*qtdAlunos].email) == 0);
 
     printf("\nAluno cadastrado com sucesso!\n");
+    (*qtdAlunos)++;
 }
 
 
 // Cadastra disciplina
-void cadastraDisciplina(stDisciplina disciplinas[], int qtdDisciplinas){
+void cadastraDisciplina(stDisciplina disciplinas[], int *qtdDisciplinas){
     printf("\nCadastro de Disciplinas\n");
 
     printf("Digite o código da disciplina: ");
-    scanf("%d", &disciplinas[qtdDisciplinas].codigoDis);
+    scanf("%d", &disciplinas[*qtdDisciplinas].codigoDis);
     getchar();
 
     printf("Digite o nome da disciplina: ");
-    fgets(disciplinas[qtdDisciplinas].disciplina, sizeof(disciplinas[qtdDisciplinas].disciplina), stdin);
-    disciplinas[qtdDisciplinas].disciplina[strcspn(disciplinas[qtdDisciplinas].disciplina, "\n")] = '\0';
+    fgets(disciplinas[*qtdDisciplinas].disciplina, sizeof(disciplinas[*qtdDisciplinas].disciplina), stdin);
+    disciplinas[*qtdDisciplinas].disciplina[strcspn(disciplinas[*qtdDisciplinas].disciplina, "\n")] = '\0';
 
     printf("\nDisciplina cadastrada com sucesso!\n");
+    (*qtdDisciplinas)++;
 }
 
 // Cadastra matrícula
-void cadastraMatricula (stMatricula matriculas[], int qtdMatriculas, stAluno alunos[], int qtdAlunos, stDisciplina disciplinas[], int qtdDisciplinas){
+void cadastraMatricula (stMatricula matriculas[], int *qtdMatriculas, stAluno alunos[], int qtdAlunos, stDisciplina disciplinas[], int qtdDisciplinas){
     int raDigitado;
     int codigoDigitado;
     int indiceAluno;
@@ -73,10 +75,11 @@ void cadastraMatricula (stMatricula matriculas[], int qtdMatriculas, stAluno alu
 
     printf("Disciplina: %s\n", disciplinas[indiceDisciplina].disciplina);
 
-    matriculas[qtdMatriculas].ra = raDigitado;
-    matriculas[qtdMatriculas].codigoDis = codigoDigitado;
+    matriculas[*qtdMatriculas].ra = raDigitado;
+    matriculas[*qtdMatriculas].codigoDis = codigoDigitado;
 
     printf("\nMatrícula realizada com sucesso!\n"); 
+    (*qtdMatriculas)++;
 }
 
 // Cadastra compromisso
@@ -134,9 +137,8 @@ void cadastraCompromisso(stCompromisso *compromissos, int *qtdCompromissos, stAl
     fgets(compromissos[*qtdCompromissos].descricao, sizeof(compromissos[*qtdCompromissos].descricao), stdin);
     compromissos[*qtdCompromissos].descricao[strcspn(compromissos[*qtdCompromissos].descricao, "\n")] = '\0';
 
-    (*qtdCompromissos)++;
-
     printf("\nCompromisso cadastrado com sucesso!\n");
+    *(qtdCompromissos)++;
 }
 
 // Funções de validação
@@ -245,9 +247,47 @@ int procuraHorario(stCompromisso *compromissos, int qtdComp, stHora *hora, stDat
 }
 
 // Funções de impressão
-//
-//
-//
+void imprimeVetorDeAlunos(stAluno *alunos, int qtdAlunos){
+    printf("\n--- Lista de Alunos Cadastrados ---\n");
+    for(int i = 0; i < qtdAlunos; i++){
+        printf("RA: %d | Nome: %s | Email: %s\n", alunos[i].ra, alunos[i].nome, alunos[i].email);
+    }
+}
+
+void imprimeRelatorioAlunos(stAluno *alunos, int qtdAlunos){
+    if (qtdAlunos == 0) {
+        printf("\nNenhum aluno cadastrado.\n");
+        return;
+    }
+
+    // AQUI você chama o qsort ANTES de imprimir
+    qsort(alunos, qtdAlunos, sizeof(stAluno), comparaAlunoRa);
+
+    printf("\n--- Relatório de Alunos (Ordenado por RA) ---\n");
+    for (int i = 0; i < qtdAlunos; i++) {
+        printf("RA: %d, Nome: %s, Email: %s\n", 
+               alunos[i].ra, alunos[i].nome, alunos[i].email);
+    }
+}
+
+void imprimeRelatorioCompromissos(stCompromisso *compromissos, int qtdCompromissos){
+if (qtdCompromissos == 0) {
+        printf("\nNenhum compromisso cadastrado.\n");
+        return;
+    }
+
+    // AQUI você chama o qsort ANTES de imprimir
+    qsort(compromissos, qtdCompromissos, sizeof(stCompromisso), comparaCompromissoDataHoraRa);
+
+    printf("\n--- Relatório de Compromissos (Ordenado por Data/Hora) ---\n");
+    for (int i = 0; i < qtdCompromissos; i++) {
+        printf("Data: %02d/%02d/%d\n", compromissos[i].data.dia, compromissos[i].data.mes, compromissos[i].data.ano);
+        printf("Hora: %02d:%02d\n", compromissos[i].horario.hora, compromissos[i].horario.min);
+        printf("Aluno: %s (RA: %d)\n", compromissos[i].aluno.nome, compromissos[i].aluno.ra);
+        printf("Descrição: %s\n", compromissos[i].descricao);
+        printf("--------------------------------------------\n");
+    }
+}
 
 // Funções de alocação dinâmica
 stAluno* criaVetorAlunos(int tamanhoInicial){
@@ -321,6 +361,96 @@ stCompromisso* realocaVetorCompromissos(stCompromisso *vetor, int novoTamanho){
     return novoVetor;
 }
 
+// Funções auxiliares para qsort
+int comparaAlunoRa(const void *a, const void *b){
+    // Converte os ponteiros genéricos de volta para ponteiros de stAluno
+    const stAluno *alunoA = (const stAluno *)a;
+    const stAluno *alunoB = (const stAluno *)b;
+
+    // Retorna a diferença dos RAs.
+    // Se for < 0, A vem antes.
+    // Se for > 0, B vem antes.
+    // Se for = 0, são iguais.
+    return alunoA->ra - alunoB->ra;
+}
+
+// ...
+
+
+
+
+
+int comparaCompromissoDataHoraRa(const void *a, const void *b){
+// Converte os ponteiros genéricos
+    const stCompromisso *compA = (const stCompromisso *)a;
+    const stCompromisso *compB = (const stCompromisso *)b;
+
+    // 1. Comparar Ano
+    if (compA->data.ano != compB->data.ano) {
+        return compA->data.ano - compB->data.ano;
+    }
+    
+    // Se os anos são iguais, comparar Mês
+    if (compA->data.mes != compB->data.mes) {
+        return compA->data.mes - compB->data.mes;
+    }
+
+    // Se os meses são iguais, comparar Dia
+    if (compA->data.dia != compB->data.dia) {
+        return compA->data.dia - compB->data.dia;
+    }
+
+    // Se as datas são iguais, comparar Hora
+    if (compA->horario.hora != compB->horario.hora) {
+        return compA->horario.hora - compB->horario.hora;
+    }
+
+    // Se as horas são iguais, comparar Minuto
+    if (compA->horario.min != compB->horario.min) {
+        return compA->horario.min - compB->horario.min;
+    }
+
+    // Se tudo for igual, desempata pelo RA do aluno
+    return compA->aluno.ra - compB->aluno.ra;
+}
+
+int comparaCompromissoHoraRa(const void *a, const void *b){
+    const stCompromisso *compA = (const stCompromisso *)a;
+    const stCompromisso *compB = (const stCompromisso *)b;
+
+    // 1. Comparar Hora
+    if (compA->horario.hora != compB->horario.hora) {
+        return compA->horario.hora - compB->horario.hora;
+    }
+
+    // Se as horas são iguais, comparar Minuto
+    if (compA->horario.min != compB->horario.min) {
+        return compA->horario.min - compB->horario.min;
+    }
+
+    // Se tudo for igual, desempata pelo RA do aluno
+    return compA->aluno.ra - compB->aluno.ra;
+}
+
+int comparaCompromissoRaDataHora(const void *a, const void *b){
+const stCompromisso *compA = (const stCompromisso *)a;
+    const stCompromisso *compB = (const stCompromisso *)b;
+
+    // 1. Comparar RA (PRIORIDADE 1 AGORA)
+    if (compA->aluno.ra != compB->aluno.ra) {
+        return compA->aluno.ra - compB->aluno.ra;
+    }
+
+    // RAs são iguais, desempata pela data/hora (copia a lógica da outra função)
+    if (compA->data.ano != compB->data.ano) return compA->data.ano - compB->data.ano;
+    if (compA->data.mes != compB->data.mes) return compA->data.mes - compB->data.mes;
+    if (compA->data.dia != compB->data.dia) return compA->data.dia - compB->data.dia;
+    if (compA->horario.hora != compB->horario.hora) return compA->horario.hora - compB->horario.hora;
+    if (compA->horario.min != compB->horario.min) return compA->horario.min - compB->horario.min;
+
+    return 0; // Tudo igual
+}
+
 // Funções de leitura
 void leData(stData *d) {
     do {
@@ -347,10 +477,14 @@ void leHorario(stHora *h) {
 }
 
 // Função menu
-int menu()
-{
+int menu(stAluno *alunos, int *qtdAlunos,
+        stDisciplina *disciplinas, int *qtdDisciplinas,
+        stMatricula *matriculas, int *qtdMatriculas,
+        stCompromisso *compromissos, int *qtdCompromissos){
+
     int opcao;
 
+    do {
     printf("Menu:\n");
     printf("1. Cadastrar Aluno\n");
     printf("2. Cadastrar Disciplina\n");
@@ -361,11 +495,37 @@ int menu()
     printf("7. Imprimir dados de todos os alunos\n");
     printf("8. Sair\n");
     scanf("%d", &opcao);
-
-    return opcao;
+    switch (opcao){
+        case 1:
+            cadastraAluno(alunos, qtdAlunos);
+            break;
+        case 2:
+            cadastraDisciplina(disciplinas, qtdDisciplinas);
+            break;
+        case 3:
+            cadastraMatricula(matriculas, qtdMatriculas, alunos, qtdAlunos, disciplinas, qtdDisciplinas);
+            break;
+        case 4:
+            cadastraCompromisso(compromissos, qtdCompromissos, alunos, qtdAlunos);
+            break;
+        case 5:
+            // Função para imprimir relatório de compromissos
+            break;
+        case 6:
+            // Função para imprimir relatório de um aluno
+            break;
+        case 7:
+            // Função para imprimir dados de todos os alunos
+            break;
+        case 8:
+            printf("Saindo do programa.\n");
+            break;
+        default:
+            printf("Opção inválida. Tente novamente.\n");
+    }
+} while (opcao != 8);
 }
 
-// Funções auxiliares para qsort
 // int comparaAlunoRa(const void *a, const void *b);
 // int comparaCompromissoDataHoraRa(const void *a, const void *b);
 // int comparaCompromissoHoraRa(const void *a, const void *b);

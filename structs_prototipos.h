@@ -39,9 +39,9 @@ typedef struct{
 } stCompromisso;
 
 // Funções de cadastro
-void cadastraAluno(stAluno [], int);
-void cadastraDisciplina(stDisciplina [], int);
-void cadastraMatricula(stMatricula [], int, stAluno [],  int, stDisciplina [], int);
+void cadastraAluno(stAluno [], int *);
+void cadastraDisciplina(stDisciplina [], int *);
+void cadastraMatricula(stMatricula [], int *, stAluno [],  int, stDisciplina [], int);
 void cadastraCompromisso(stCompromisso *, int *, stAluno *, int);
 
 // Funções de validação
@@ -83,4 +83,7 @@ void leHorario(stHora *);
 void leData(stData *);
 
 // Função menu
-int menu();
+int menu(stAluno *alunos, int *qtdAlunos,
+        stDisciplina *disciplinas, int *qtdDisciplinas,
+        stMatricula *matriculas, int *qtdMatriculas,
+        stCompromisso *compromissos, int *qtdCompromissos);

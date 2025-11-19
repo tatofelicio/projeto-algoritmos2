@@ -241,9 +241,10 @@ int procuraHorario(stCompromisso *compromissos, int qtdComp, stHora *hora, stDat
             compromissos[i].horario.hora == hora->hora &&
             compromissos[i].horario.min == hora->min) {
             return i; 
+        }
     }
     return -1;
-}
+
 }
 
 // Funções de impressão
@@ -515,7 +516,7 @@ int menu(stAluno *alunos, int *qtdAlunos,
             imprimeRelatorioAlunos(alunos, *qtdAlunos);
             break;
         case 7:
-            imprimeDadosTodosAlunos(alunos, *qtdAlunos);
+            imprimeVetorDeAlunos(alunos, *qtdAlunos);
             break;
         case 8:
             printf("Saindo do programa.\n");

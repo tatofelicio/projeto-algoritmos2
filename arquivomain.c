@@ -2,6 +2,8 @@
 
 int main(){
 
+    setlocale(LC_ALL, "Portuguese");
+    
     //inicialização das variáveis
     int qtdAlunos = 0, qtdDisciplinas = 0, qtdMatriculas = 0, qtdCompromissos = 0;
     int tamanhoIncial = 10;

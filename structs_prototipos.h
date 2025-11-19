@@ -1,3 +1,7 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
 
 typedef struct{
     int dia;
@@ -36,9 +40,9 @@ typedef struct{
 } stCompromisso;
 
 // Funções de cadastro
-void cadastraAluno(stAluno [], int);
-void cadastraDisciplina(stDisciplina [], int);
-void cadastraMatricula(stMatricula [], int, stAluno [],  int, stDisciplina [], int);
+void cadastraAluno(stAluno [], int *);
+void cadastraDisciplina(stDisciplina [], int *);
+void cadastraMatricula(stMatricula [], int *, stAluno [],  int, stDisciplina [], int);
 void cadastraCompromisso(stCompromisso *, int *, stAluno *, int);
 
 // Funções de validação
@@ -52,10 +56,15 @@ int encontraDisciplina(stDisciplina *, int, int);
 int procuraData(stCompromisso *, int, stData *, int);
 int procuraHorario(stCompromisso *, int, stHora *, stData *, int);
 
-// Funções de impressão
+// Funções de impressão e Relatórios
 void imprimeVetorDeAlunos(stAluno [], int);
 void imprimeRelatorioAlunos(stAluno *, int);
-void imprimeRelatorioCompromissos(stCompromisso *, int);
+
+// Novos relatórios detalhados
+void relatorioCompromissoUmAluno(stCompromisso *compromissos, int qtdCompromissos, stAluno *alunos, int qtdAlunos);
+void relatorioCompromissoTodosAlunos(stCompromisso *compromissos, int qtdCompromissos);
+void relatorioCompromissoUmaData(stCompromisso *compromissos, int qtdCompromissos);
+void relatorioCompromissoTodasDatas(stCompromisso *compromissos, int qtdCompromissos);
 
 // Funções de alocação dinâmica
 stAluno* criaVetorAlunos(int tamanhoInicial);
@@ -80,4 +89,7 @@ void leHorario(stHora *);
 void leData(stData *);
 
 // Função menu
-int menu();
+int menu(stAluno *alunos, int *qtdAlunos,
+        stDisciplina *disciplinas, int *qtdDisciplinas,
+        stMatricula *matriculas, int *qtdMatriculas,
+        stCompromisso *compromissos, int *qtdCompromissos);

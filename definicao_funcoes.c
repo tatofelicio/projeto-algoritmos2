@@ -509,13 +509,13 @@ int menu(stAluno *alunos, int *qtdAlunos,
             cadastraCompromisso(compromissos, qtdCompromissos, alunos, qtdAlunos);
             break;
         case 5:
-            // Função para imprimir relatório de compromissos
+            imprimeRelatorioCompromissos(compromissos, *qtdCompromissos);
             break;
         case 6:
-            // Função para imprimir relatório de um aluno
+            imprimeRelatorioAlunos(alunos, *qtdAlunos);
             break;
         case 7:
-            // Função para imprimir dados de todos os alunos
+            imprimeDadosTodosAlunos(alunos, *qtdAlunos);
             break;
         case 8:
             printf("Saindo do programa.\n");

@@ -3,6 +3,8 @@
 
 // FUNÇÕES DE CADASTRO
 void cadastraAluno(stAluno alunos[], int *qtdAlunos){
+    int continua = 1;
+    while(continua) {
     printf("\n--- Cadastro de Aluno ---\n");
 
     do{
@@ -22,19 +24,35 @@ void cadastraAluno(stAluno alunos[], int *qtdAlunos){
         printf("Digite o email do aluno: ");
         fgets(alunos[*qtdAlunos].email, sizeof(alunos[*qtdAlunos].email), stdin);
         alunos[*qtdAlunos].email[strcspn(alunos[*qtdAlunos].email, "\n")] = '\0';
-    } while(verificaEmail(alunos[*qtdAlunos].email) == 0 || encontraEmail(alunos, *qtdAlunos, alunos[*qtdAlunos].email) != -1);
+    } while(verificaEmail(alunos[*qtdAlunos].email) == 0 || procuraEmail(alunos, *qtdAlunos, alunos[*qtdAlunos].email) != -1);
 
     printf("\nAluno cadastrado com sucesso!\n");
     (*qtdAlunos)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir um novo aluno? (1=Sim, 0=Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção inválida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 void cadastraDisciplina(stDisciplina disciplinas[], int *qtdDisciplinas){
+    int continua = 1;
+    while(continua) {
     printf("\n--- Cadastro de Disciplinas ---\n");
 
     printf("Digite o código da disciplina: ");
     scanf("%d", &disciplinas[*qtdDisciplinas].codigoDis);
     getchar();
-        if (encontracodigoDisciplina(disciplinas, *qtdDisciplinas, disciplinas[*qtdDisciplinas].codigoDis) != -1) {
+        if (procuracodigoDisciplina(disciplinas, *qtdDisciplinas, disciplinas[*qtdDisciplinas].codigoDis) != -1) {
         printf("\nErro: Código da disciplina já cadastrado. Tente novamente.\n");
         return;
     }
@@ -45,9 +63,25 @@ void cadastraDisciplina(stDisciplina disciplinas[], int *qtdDisciplinas){
 
     printf("\nDisciplina cadastrada com sucesso!\n");
     (*qtdDisciplinas)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir uma nova disciplina? (1=Sim, 0=Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção inválida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 void cadastraMatricula (stMatricula matriculas[], int *qtdMatriculas, stAluno alunos[], int qtdAlunos, stDisciplina disciplinas[], int qtdDisciplinas){
+    int continua = 1;
+    while(continua) {
     int raDigitado;
     int codigoDigitado;
     int indiceAluno;
@@ -82,9 +116,25 @@ void cadastraMatricula (stMatricula matriculas[], int *qtdMatriculas, stAluno al
 
     printf("\nMatrícula realizada com sucesso!\n"); 
     (*qtdMatriculas)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir uma nova matrícula? (1=Sim, 0=Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção inválida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 void cadastraCompromisso(stCompromisso *compromissos, int *qtdCompromissos, stAluno *alunos, int qtdAlunos) {
+    int continua = 1;
+    while(continua) {
     int raDigitado;
     int indiceAluno;
     stData novaData;
@@ -140,6 +190,20 @@ void cadastraCompromisso(stCompromisso *compromissos, int *qtdCompromissos, stAl
 
     printf("\nCompromisso cadastrado com sucesso!\n");
     (*qtdCompromissos)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir um novo compromisso? (1=Sim, 0=Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção inválida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 
@@ -225,14 +289,23 @@ int procuraHorario(stCompromisso *compromissos, int qtdComp, stHora *hora, stDat
     return -1;
 }
 
-int encontraEmail(stAluno *alunos, int qtdAlunos, char email[]) {
+int procuraEmail(stAluno *alunos, int qtdAlunos, char email[]) {
     for (int i = 0; i < qtdAlunos; i++) {
         if (strcmp(alunos[i].email, email) == 0) {
             printf("\nErro: Email já cadastrado. Tente novamente.\n");
             return i; 
         }
     }
-    return -1; 
+    return -1;
+}
+
+int procuracodigoDisciplina(stDisciplina *disciplinas, int qtdDisciplinas, int codigo) {
+    for (int i = 0; i < qtdDisciplinas; i++) {
+        if (disciplinas[i].codigoDis == codigo) {
+            return i; 
+        }
+    }
+    return -1;
 }
 
 // FUNÇÕES DE RELATÓRIO (OPÇÃO 5)

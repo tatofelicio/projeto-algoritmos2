@@ -52,11 +52,11 @@ int verificaEmail(char []);
 
 // Funções de busca
 int encontraAluno(stAluno *, int, int);
-int encontracodigoDisciplina(stDisciplina *, int, int);
+int procuracodigoDisciplina(stDisciplina *, int, int);
 int encontraDisciplina(stDisciplina *, int, int);
 int procuraData(stCompromisso *, int, stData *, int);
 int procuraHorario(stCompromisso *, int, stHora *, stData *, int);
-int encontraEmail(stAluno *, int, char []);
+int procuraEmail(stAluno *, int, char []);
 
 // Funções de impressão e Relatórios
 void imprimeVetorDeAlunos(stAluno [], int);

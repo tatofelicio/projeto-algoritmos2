@@ -18,6 +18,10 @@ void cadastraAluno(stAluno alunos[], int *qtdAlunos){
         fgets(alunos[*qtdAlunos].email, sizeof(alunos[*qtdAlunos].email), stdin);
         alunos[*qtdAlunos].email[strcspn(alunos[*qtdAlunos].email, "\n")] = '\0';
     } while(verificaEmail(alunos[*qtdAlunos].email) == 0);
+    if (encontraEmail(alunos, *qtdAlunos, alunos[*qtdAlunos].email) != -1) {
+        printf("Erro: Email já cadastrado. Tente novamente.\n");
+        return;
+    }
 
     printf("\nAluno cadastrado com sucesso!\n");
     (*qtdAlunos)++;
@@ -214,6 +218,15 @@ int procuraHorario(stCompromisso *compromissos, int qtdComp, stHora *hora, stDat
         }
     }
     return -1;
+}
+
+int encontraEmail(stAluno *alunos, int qtdAlunos, char email[]) {
+    for (int i = 0; i < qtdAlunos; i++) {
+        if (strcmp(alunos[i].email, email) == 0) {
+            return i; 
+        }
+    }
+    return -1; 
 }
 
 // FUNÇÕES DE RELATÓRIO (OPÇÃO 5)

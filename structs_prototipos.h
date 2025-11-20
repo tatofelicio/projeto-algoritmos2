@@ -52,6 +52,7 @@ int verificaEmail(char []);
 
 // Funções de busca
 int encontraAluno(stAluno *, int, int);
+int encontracodigoDisciplina(stDisciplina *, int, int);
 int encontraDisciplina(stDisciplina *, int, int);
 int procuraData(stCompromisso *, int, stData *, int);
 int procuraHorario(stCompromisso *, int, stHora *, stData *, int);

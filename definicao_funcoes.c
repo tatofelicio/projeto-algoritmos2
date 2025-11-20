@@ -5,9 +5,14 @@
 void cadastraAluno(stAluno alunos[], int *qtdAlunos){
     printf("\n--- Cadastro de Aluno ---\n");
 
+    do{
     printf("Digite o RA: (sem 'a') ");
     scanf("%d", &alunos[*qtdAlunos].ra);
     getchar(); 
+    if (encontraAluno(alunos, *qtdAlunos, alunos[*qtdAlunos].ra) != -1) {
+        printf("\nErro: RA já cadastrado. Tente novamente.\n");
+    }
+    } while (encontraAluno(alunos, *qtdAlunos, alunos[*qtdAlunos].ra) != -1);
 
     printf("Digite o nome do aluno: ");
     fgets(alunos[*qtdAlunos].nome, sizeof(alunos[*qtdAlunos].nome), stdin);
@@ -17,11 +22,7 @@ void cadastraAluno(stAluno alunos[], int *qtdAlunos){
         printf("Digite o email do aluno: ");
         fgets(alunos[*qtdAlunos].email, sizeof(alunos[*qtdAlunos].email), stdin);
         alunos[*qtdAlunos].email[strcspn(alunos[*qtdAlunos].email, "\n")] = '\0';
-    } while(verificaEmail(alunos[*qtdAlunos].email) == 0);
-    if (encontraEmail(alunos, *qtdAlunos, alunos[*qtdAlunos].email) != -1) {
-        printf("Erro: Email já cadastrado. Tente novamente.\n");
-        return;
-    }
+    } while(verificaEmail(alunos[*qtdAlunos].email) == 0 || encontraEmail(alunos, *qtdAlunos, alunos[*qtdAlunos].email) != -1);
 
     printf("\nAluno cadastrado com sucesso!\n");
     (*qtdAlunos)++;
@@ -33,6 +34,10 @@ void cadastraDisciplina(stDisciplina disciplinas[], int *qtdDisciplinas){
     printf("Digite o código da disciplina: ");
     scanf("%d", &disciplinas[*qtdDisciplinas].codigoDis);
     getchar();
+        if (encontracodigoDisciplina(disciplinas, *qtdDisciplinas, disciplinas[*qtdDisciplinas].codigoDis) != -1) {
+        printf("\nErro: Código da disciplina já cadastrado. Tente novamente.\n");
+        return;
+    }
 
     printf("Digite o nome da disciplina: ");
     fgets(disciplinas[*qtdDisciplinas].disciplina, sizeof(disciplinas[*qtdDisciplinas].disciplina), stdin);
@@ -223,6 +228,7 @@ int procuraHorario(stCompromisso *compromissos, int qtdComp, stHora *hora, stDat
 int encontraEmail(stAluno *alunos, int qtdAlunos, char email[]) {
     for (int i = 0; i < qtdAlunos; i++) {
         if (strcmp(alunos[i].email, email) == 0) {
+            printf("\nErro: Email já cadastrado. Tente novamente.\n");
             return i; 
         }
     }

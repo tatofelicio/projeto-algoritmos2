@@ -58,7 +58,7 @@ int procuraData(stCompromisso *, int, stData *, int);
 int procuraHorario(stCompromisso *, int, stHora *, stData *, int);
 int procuraEmail(stAluno *, int, char []);
 
-// Funções de impressão e Relatórios
+// FUNÇÕES DE IMPRESSÃO E RELATORIO
 void imprimeVetorDeAlunos(stAluno [], int);
 void imprimeRelatorioAlunos(stAluno *, int);
 
@@ -80,13 +80,13 @@ stDisciplina* realocaVetorDisciplinas(stDisciplina *vetor, int novoTamanho);
 stMatricula* realocaVetorMatriculas(stMatricula *vetor, int novoTamanho);
 stCompromisso* realocaVetorCompromissos(stCompromisso *vetor, int novoTamanho);
 
-// Funções auxiliares para qsort
+// FUNÇÕES DE COMPARAÇÃO (QSORT)
 int comparaAlunoRa(const void *a, const void *b);
 int comparaCompromissoDataHoraRa(const void *a, const void *b);
 int comparaCompromissoHoraRa(const void *a, const void *b);
 int comparaCompromissoRaDataHora(const void *a, const void *b);
 
-// Funções de leitura
+// FUNÇÕES DE LEITURA
 void leHorario(stHora *);
 void leData(stData *);
 
@@ -95,3 +95,8 @@ int menu(stAluno *alunos, int *qtdAlunos,
         stDisciplina *disciplinas, int *qtdDisciplinas,
         stMatricula *matriculas, int *qtdMatriculas,
         stCompromisso *compromissos, int *qtdCompromissos);
+
+//FUNÇÕES DE MANIPULAÇÃO DE ARQUIVOS
+FILE *fopen(const char *filename, const char *mode);
+void salvarDados(stAluno *alunos, int qtdAlunos, stDisciplina *disciplinas, int qtdDisciplinas, stMatricula *matriculas, int qtdMatriculas, stCompromisso *compromissos, int qtdCompromissos);
+void carregarDados(stAluno *alunos, int *qtdAlunos, stDisciplina *disciplinas, int *qtdDisciplinas, stMatricula *matriculas, int *qtdMatriculas, stCompromisso *compromissos, int *qtdCompromissos);

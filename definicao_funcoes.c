@@ -3,11 +3,18 @@
 
 // FUNÇÕES DE CADASTRO
 void cadastraAluno(stAluno alunos[], int *qtdAlunos){
-    printf("\n--- Cadastro de Aluno ---\n");
+    int continua = 1;
+    while(continua) {
+    printf("\n========== CADASTRO DE ALUNOS ==========\n");
 
+    do{
     printf("Digite o RA: (sem 'a') ");
     scanf("%d", &alunos[*qtdAlunos].ra);
     getchar(); 
+    if (encontraAluno(alunos, *qtdAlunos, alunos[*qtdAlunos].ra) != -1) {
+        printf("\nErro: RA já cadastrado. Tente novamente.\n");
+    }
+    } while (encontraAluno(alunos, *qtdAlunos, alunos[*qtdAlunos].ra) != -1);
 
     printf("Digite o nome do aluno: ");
     fgets(alunos[*qtdAlunos].nome, sizeof(alunos[*qtdAlunos].nome), stdin);
@@ -17,18 +24,38 @@ void cadastraAluno(stAluno alunos[], int *qtdAlunos){
         printf("Digite o email do aluno: ");
         fgets(alunos[*qtdAlunos].email, sizeof(alunos[*qtdAlunos].email), stdin);
         alunos[*qtdAlunos].email[strcspn(alunos[*qtdAlunos].email, "\n")] = '\0';
-    } while(verificaEmail(alunos[*qtdAlunos].email) == 0);
+    } while(verificaEmail(alunos[*qtdAlunos].email) == 0 || procuraEmail(alunos, *qtdAlunos, alunos[*qtdAlunos].email) != -1);
 
     printf("\nAluno cadastrado com sucesso!\n");
     (*qtdAlunos)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir um novo aluno? (1= Sim, 0= Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção invalida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 void cadastraDisciplina(stDisciplina disciplinas[], int *qtdDisciplinas){
-    printf("\n--- Cadastro de Disciplinas ---\n");
+    int continua = 1;
+    while(continua) {
+    printf("\n========== CADASTRO DE DISCIPLINAS ==========\n");
 
-    printf("Digite o código da disciplina: ");
+    printf("Digite o codigo da disciplina: ");
     scanf("%d", &disciplinas[*qtdDisciplinas].codigoDis);
     getchar();
+        if (procuracodigoDisciplina(disciplinas, *qtdDisciplinas, disciplinas[*qtdDisciplinas].codigoDis) != -1) {
+        printf("\nErro: Codigo da disciplina ja cadastrado. Tente novamente.\n");
+        return;
+    }
 
     printf("Digite o nome da disciplina: ");
     fgets(disciplinas[*qtdDisciplinas].disciplina, sizeof(disciplinas[*qtdDisciplinas].disciplina), stdin);
@@ -36,15 +63,31 @@ void cadastraDisciplina(stDisciplina disciplinas[], int *qtdDisciplinas){
 
     printf("\nDisciplina cadastrada com sucesso!\n");
     (*qtdDisciplinas)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir uma nova disciplina? (1= Sim, 0= Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção invalida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 void cadastraMatricula (stMatricula matriculas[], int *qtdMatriculas, stAluno alunos[], int qtdAlunos, stDisciplina disciplinas[], int qtdDisciplinas){
+    int continua = 1;
+    while(continua) {
     int raDigitado;
     int codigoDigitado;
     int indiceAluno;
     int indiceDisciplina;
 
-    printf("\n--- Cadastro de Matrícula ---\n");
+    printf("\n========== CADASTRO DE MATRICULA ==========\n");
 
     do {
         printf("Digite o RA do aluno: ");
@@ -73,16 +116,32 @@ void cadastraMatricula (stMatricula matriculas[], int *qtdMatriculas, stAluno al
 
     printf("\nMatrícula realizada com sucesso!\n"); 
     (*qtdMatriculas)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir uma nova matrícula? (1= Sim, 0= Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção invalida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 void cadastraCompromisso(stCompromisso *compromissos, int *qtdCompromissos, stAluno *alunos, int qtdAlunos) {
+    int continua = 1;
+    while(continua) {
     int raDigitado;
     int indiceAluno;
     stData novaData;
     stHora novaHora;
     int compromissosNaData = 0;
 
-    printf("\n--- Cadastro de Compromisso ---\n");
+    printf("\n========== CADASTRO DE COMPROMISSO ==========\n");
 
     do {
         printf("Digite o RA do aluno: ");
@@ -131,17 +190,31 @@ void cadastraCompromisso(stCompromisso *compromissos, int *qtdCompromissos, stAl
 
     printf("\nCompromisso cadastrado com sucesso!\n");
     (*qtdCompromissos)++;
+    
+    int opcao;
+    do {
+        printf("\nDeseja inserir um novo compromisso? (1= Sim, 0= Voltar ao menu): ");
+        scanf("%d", &opcao);
+        if (opcao != 0 && opcao != 1) {
+            printf("Opção invalida. Tente novamente.\n");
+        }
+    } while (opcao != 0 && opcao != 1);
+    
+    if (opcao == 0) {
+        continua = 0;
+    }
+    }
 }
 
 
 // FUNÇÕES DE VALIDAÇÃO
 int verificaData(stData * data) {
     if(data->ano < 1900 || data->ano > 2100){
-        printf("Ano inválido.\n");
+        printf("Ano invAlido.\n");
         return 0;
     }
     if(data->mes < 1 || data->mes > 12) {
-        printf("Mês inválido.\n");
+        printf("Mês invalido.\n");
         return 0;
     }
     int diasNoMes;
@@ -155,7 +228,7 @@ int verificaData(stData * data) {
         default: return 0; 
     }
     if(data->dia < 1 || data->dia > diasNoMes) {
-        printf("Dia inválido para este mês.\n");
+        printf("Dia invalido para este mês.\n");
         return 0;
     }
     return 1;
@@ -169,7 +242,7 @@ int verificaHorario(stHora * hora) {
 
 int verificaEmail(char email[]) {
     if(strchr(email, '@') == NULL || strchr(email, '.') == NULL) {
-        printf("Email inválido (deve conter @ e .)\n");
+        printf("Email invalido (deve conter @ e .)\n");
         return 0;
     }
     return 1;
@@ -216,6 +289,25 @@ int procuraHorario(stCompromisso *compromissos, int qtdComp, stHora *hora, stDat
     return -1;
 }
 
+int procuraEmail(stAluno *alunos, int qtdAlunos, char email[]) {
+    for (int i = 0; i < qtdAlunos; i++) {
+        if (strcmp(alunos[i].email, email) == 0) {
+            printf("\nErro: Email ja cadastrado. Tente novamente.\n");
+            return i; 
+        }
+    }
+    return -1;
+}
+
+int procuracodigoDisciplina(stDisciplina *disciplinas, int qtdDisciplinas, int codigo) {
+    for (int i = 0; i < qtdDisciplinas; i++) {
+        if (disciplinas[i].codigoDis == codigo) {
+            return i; 
+        }
+    }
+    return -1;
+}
+
 // FUNÇÕES DE RELATÓRIO (OPÇÃO 5)
 // a. Relatório de um aluno específico (ordenado por Data/Hora)
 void relatorioCompromissoUmAluno(stCompromisso *compromissos, int qtdCompromissos, stAluno *alunos, int qtdAlunos) {
@@ -255,7 +347,7 @@ void relatorioCompromissoTodosAlunos(stCompromisso *compromissos, int qtdComprom
     // Ordena por RA, depois Data, depois Hora
     qsort(compromissos, qtdCompromissos, sizeof(stCompromisso), comparaCompromissoRaDataHora);
 
-    printf("\n--- Relatório Geral (Ordenado por RA) ---\n");
+    printf("\n========== RELATORIO GERAL (Ordenado por RA) ==========\n");
     for(int i=0; i<qtdCompromissos; i++){
         printf("RA: %d (%s) | %02d/%02d/%d as %02d:%02d | %s\n", 
             compromissos[i].aluno.ra, compromissos[i].aluno.nome,
@@ -270,7 +362,7 @@ void relatorioCompromissoUmaData(stCompromisso *compromissos, int qtdCompromisso
     if(qtdCompromissos == 0) { printf("Nenhum compromisso cadastrado.\n"); return; }
 
     stData d;
-    printf("\nDigite a data para o relatório:\n");
+    printf("\nDigite a data para o relatorio:\n");
     leData(&d);
 
     // Ordena por Hora e RA
@@ -300,7 +392,7 @@ void relatorioCompromissoTodasDatas(stCompromisso *compromissos, int qtdCompromi
     // Ordena por Data, Hora e RA
     qsort(compromissos, qtdCompromissos, sizeof(stCompromisso), comparaCompromissoDataHoraRa);
 
-    printf("\n--- Agenda Completa (Ordenado por Data) ---\n");
+    printf("\n========== AGENDA COMPLETA (Ordenado por Data) ==========\n");
     for(int i=0; i<qtdCompromissos; i++){
         printf("%02d/%02d/%d as %02d:%02d | RA: %d (%s) | %s\n", 
             compromissos[i].data.dia, compromissos[i].data.mes, compromissos[i].data.ano,
@@ -310,9 +402,9 @@ void relatorioCompromissoTodasDatas(stCompromisso *compromissos, int qtdCompromi
     }
 }
 
-// OUTRAS FUNÇÕES DE IMPRESSÃO
+// FUNÇÕES DE IMPRESSÃO E RELATORIO
 void imprimeVetorDeAlunos(stAluno *alunos, int qtdAlunos){
-    printf("\n--- Lista de Alunos Cadastrados ---\n");
+    printf("\n========== LISTA DE ALUNOS CADASTRADOS ==========\n");
     for(int i = 0; i < qtdAlunos; i++){
         printf("RA: %d | Nome: %s | Email: %s\n", alunos[i].ra, alunos[i].nome, alunos[i].email);
     }
@@ -324,7 +416,7 @@ void imprimeRelatorioAlunos(stAluno *alunos, int qtdAlunos){
         return;
     }
     qsort(alunos, qtdAlunos, sizeof(stAluno), comparaAlunoRa);
-    printf("\n--- Relatório de Alunos (Ordenado por RA) ---\n");
+    printf("\n========== RELATORIO DE ALUNOS (Ordenado por RA) ==========\n");
     for (int i = 0; i < qtdAlunos; i++) {
         printf("RA: %d | Nome: %s\n", alunos[i].ra, alunos[i].nome);
     }
@@ -409,16 +501,22 @@ int menu(stAluno *alunos, int *qtdAlunos,
     int opcao;
     char opcrelatorio;
 
+    // --- CARREGAR DADOS NO INÍCIO ---
+    printf("Carregando base de dados...\n");
+    carregarDados(alunos, qtdAlunos, disciplinas, qtdDisciplinas, matriculas, qtdMatriculas, compromissos, qtdCompromissos);
+    printf("Dados carregados! Alunos: %d | Disciplinas: %d\n", *qtdAlunos, *qtdDisciplinas);
+    // -------------------------------
+
     do {
         printf("\n========== MENU ==========\n");
         printf("1. Cadastrar Aluno\n");
         printf("2. Cadastrar Disciplina\n");
-        printf("3. Cadastrar Matrícula\n");
+        printf("3. Cadastrar Matricula\n");
         printf("4. Cadastrar Compromisso\n");
-        printf("5. Relatórios de Compromissos\n");
-        printf("6. Relatório de Alunos (Ordenado por RA)\n");
-        printf("7. Imprimir dados brutos de todos os alunos\n");
-        printf("8. Sair\n");
+        printf("5. Relatorios de Compromissos\n");
+        printf("6. Relatorio de Alunos\n");
+        printf("7. Imprimir dados todos os alunos\n");
+        printf("8. Sair e Salvar\n");
         printf("Escolha: ");
         scanf("%d", &opcao);
 
@@ -436,10 +534,10 @@ int menu(stAluno *alunos, int *qtdAlunos,
                 cadastraCompromisso(compromissos, qtdCompromissos, alunos, *qtdAlunos);
                 break;
             case 5:
-                printf("\n--- Menu de Relatórios ---\n");
-                printf("a. De um aluno específico (ordenado por data/hora)\n");
+                printf("\n========== MENU DE RELATORIOS ==========\n");
+                printf("a. De um aluno especifico (ordenado por data/hora)\n");
                 printf("b. De todos os alunos (ordenado por RA/Data/Hora)\n");
-                printf("c. De uma data específica (ordenado por hora/RA)\n");
+                printf("c. De uma data especifica (ordenado por hora/RA)\n");
                 printf("d. De todas as datas (ordenado por data/hora/RA)\n");
                 printf("Opção: ");
                 
@@ -464,7 +562,7 @@ int menu(stAluno *alunos, int *qtdAlunos,
                         relatorioCompromissoTodasDatas(compromissos, *qtdCompromissos);
                         break;
                     default:
-                        printf("Opção de relatório inválida.\n");
+                        printf("Opção de relatorio inválida.\n");
                 }
                 break;
 
@@ -475,11 +573,152 @@ int menu(stAluno *alunos, int *qtdAlunos,
                 imprimeVetorDeAlunos(alunos, *qtdAlunos);
                 break;
             case 8:
-                printf("Saindo do programa.\n");
+                // --- SALVAR DADOS AO SAIR ---
+                printf("Salvando dados e saindo...\n");
+                salvarDados(alunos, *qtdAlunos, disciplinas, *qtdDisciplinas, matriculas, *qtdMatriculas, compromissos, *qtdCompromissos);
                 break;
             default:
-                printf("Opção inválida. Tente novamente.\n");
+                printf("Opção invalida. Tente novamente.\n");
         }
     } while (opcao != 8);
     return 0;
+}
+
+//FUNÇÕES DE MANIPULAÇÃO DE ARQUIVOS
+
+void salvarDados(stAluno *alunos, int qtdAlunos, stDisciplina *disciplinas, int qtdDisciplinas, stMatricula *matriculas, int qtdMatriculas, stCompromisso *compromissos, int qtdCompromissos) {
+    FILE *f;
+
+    // 1. Salvar Alunos
+    f = fopen("alunos.txt", "w"); // "w" sobrescreve o arquivo
+    if (f == NULL) { printf("Erro ao salvar alunos.\n"); } 
+    else {
+        fprintf(f, "%d\n", qtdAlunos); // A primeira linha diz quantos alunos existem
+        for (int i = 0; i < qtdAlunos; i++) {
+            // Formato: RA (nova linha) Nome (nova linha) Email
+            fprintf(f, "%d\n", alunos[i].ra);
+            fprintf(f, "%s\n", alunos[i].nome);
+            fprintf(f, "%s\n", alunos[i].email);
+        }
+        fclose(f);
+    }
+
+    // 2. Salvar Disciplinas
+    f = fopen("disciplinas.txt", "w");
+    if (f == NULL) { printf("Erro ao salvar disciplinas.\n"); }
+    else {
+        fprintf(f, "%d\n", qtdDisciplinas);
+        for (int i = 0; i < qtdDisciplinas; i++) {
+            fprintf(f, "%d\n", disciplinas[i].codigoDis);
+            fprintf(f, "%s\n", disciplinas[i].disciplina);
+        }
+        fclose(f);
+    }
+
+    // 3. Salvar Matrículas
+    f = fopen("matriculas.txt", "w");
+    if (f == NULL) { printf("Erro ao salvar matriculas.\n"); }
+    else {
+        fprintf(f, "%d\n", qtdMatriculas);
+        for (int i = 0; i < qtdMatriculas; i++) {
+            fprintf(f, "%d\n", matriculas[i].ra);
+            fprintf(f, "%d\n", matriculas[i].codigoDis);
+        }
+        fclose(f);
+    }
+
+    // 4. Salvar Compromissos
+    f = fopen("compromissos.txt", "w");
+    if (f == NULL) { printf("Erro ao salvar compromissos.\n"); }
+    else {
+        fprintf(f, "%d\n", qtdCompromissos);
+        for (int i = 0; i < qtdCompromissos; i++) {
+            // Salva RA, Data, Hora e Descrição
+            fprintf(f, "%d\n", compromissos[i].aluno.ra); // Apenas o RA é suficiente para reconstruir o link depois, mas aqui salvamos os dados diretos
+            fprintf(f, "%s\n", compromissos[i].aluno.nome); // Salvamos o nome para facilitar leitura manual, mas na carga buscaremos pelo RA se necessário
+            fprintf(f, "%d %d %d\n", compromissos[i].data.dia, compromissos[i].data.mes, compromissos[i].data.ano);
+            fprintf(f, "%d %d\n", compromissos[i].horario.hora, compromissos[i].horario.min);
+            fprintf(f, "%s\n", compromissos[i].descricao);
+        }
+        fclose(f);
+    }
+    printf("\nDados salvos com sucesso!\n");
+}
+
+void carregarDados(stAluno *alunos, int *qtdAlunos, stDisciplina *disciplinas, int *qtdDisciplinas, stMatricula *matriculas, int *qtdMatriculas, stCompromisso *compromissos, int *qtdCompromissos) {
+    FILE *f;
+
+    // 1. Carregar Alunos
+    f = fopen("alunos.txt", "r");
+    if (f != NULL) {
+        fscanf(f, "%d", qtdAlunos); // Lê a quantidade
+        fgetc(f); // Consome o \n após o número
+        for (int i = 0; i < *qtdAlunos; i++) {
+            fscanf(f, "%d", &alunos[i].ra);
+            fgetc(f); // Consome \n
+            fgets(alunos[i].nome, sizeof(alunos[i].nome), f);
+            alunos[i].nome[strcspn(alunos[i].nome, "\n")] = '\0'; // Remove \n do fgets
+            fgets(alunos[i].email, sizeof(alunos[i].email), f);
+            alunos[i].email[strcspn(alunos[i].email, "\n")] = '\0';
+        }
+        fclose(f);
+    } else {
+        *qtdAlunos = 0; // Arquivo não existe, começa do zero
+    }
+
+    // 2. Carregar Disciplinas
+    f = fopen("disciplinas.txt", "r");
+    if (f != NULL) {
+        fscanf(f, "%d", qtdDisciplinas);
+        fgetc(f);
+        for (int i = 0; i < *qtdDisciplinas; i++) {
+            fscanf(f, "%d", &disciplinas[i].codigoDis);
+            fgetc(f);
+            fgets(disciplinas[i].disciplina, sizeof(disciplinas[i].disciplina), f);
+            disciplinas[i].disciplina[strcspn(disciplinas[i].disciplina, "\n")] = '\0';
+        }
+        fclose(f);
+    } else {
+        *qtdDisciplinas = 0;
+    }
+
+    // 3. Carregar Matrículas
+    f = fopen("matriculas.txt", "r");
+    if (f != NULL) {
+        fscanf(f, "%d", qtdMatriculas);
+        for (int i = 0; i < *qtdMatriculas; i++) {
+            fscanf(f, "%d", &matriculas[i].ra);
+            fscanf(f, "%d", &matriculas[i].codigoDis);
+        }
+        fclose(f);
+    } else {
+        *qtdMatriculas = 0;
+    }
+
+    // 4. Carregar Compromissos
+    f = fopen("compromissos.txt", "r");
+    if (f != NULL) {
+        fscanf(f, "%d", qtdCompromissos);
+        fgetc(f);
+        for (int i = 0; i < *qtdCompromissos; i++) {
+            fscanf(f, "%d", &compromissos[i].aluno.ra);
+            fgetc(f);
+            fgets(compromissos[i].aluno.nome, sizeof(compromissos[i].aluno.nome), f); // Lê nome (mas confiaremos no RA para lógica)
+            compromissos[i].aluno.nome[strcspn(compromissos[i].aluno.nome, "\n")] = '\0';
+            
+            fscanf(f, "%d %d %d", &compromissos[i].data.dia, &compromissos[i].data.mes, &compromissos[i].data.ano);
+            fscanf(f, "%d %d", &compromissos[i].horario.hora, &compromissos[i].horario.min);
+            fgetc(f); // Consome \n antes da string descrição
+            
+            fgets(compromissos[i].descricao, sizeof(compromissos[i].descricao), f);
+            compromissos[i].descricao[strcspn(compromissos[i].descricao, "\n")] = '\0';
+            
+            // Opcional: Re-vincular dados completos do aluno usando o RA lido para garantir consistência
+            // int idx = encontraAluno(alunos, *qtdAlunos, compromissos[i].aluno.ra);
+            // if(idx != -1) compromissos[i].aluno = alunos[idx];
+        }
+        fclose(f);
+    } else {
+        *qtdCompromissos = 0;
+    }
 }
